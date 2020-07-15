@@ -40,11 +40,8 @@ spec:
           mountPath: /prometheus
         ports:
         - containerPort: 80
-          name: drupal
+          name: prometheus
       volumes:
-        - name: pro-volume
-          configMap:
-            name: config-pro
         - name: all-info
           persistentVolumeClaim:
-            claimName: efs-drupal
+            claimName: efs-prometheus
