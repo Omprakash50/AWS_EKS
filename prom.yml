@@ -36,8 +36,6 @@ spec:
         volumeMounts:
         - name: pro-volume
           mountPath: /etc/prometheus
-        - name: all-info
-          mountPath: /prometheus
         ports:
         - containerPort: 80
           name: prometheus
