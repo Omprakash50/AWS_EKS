@@ -17,7 +17,10 @@ we can connect to AWS via 3 ways
 For this first we require aws configure to login to the aws cloud and then we need eksctl command which is like a client command only build for EKS Service.
 This will login to the aws in mumbai data center
 
+
 ![m](cli_config.png)
+
+## This is the YAML code to create eks cluster.
 
 ```
 apiVersion: eksctl.io/v1alpha5
@@ -40,9 +43,21 @@ nodeGroups:
       publicKeyName: Omos 
 ```
 
+## Now we can launch the cluster
+
 ```eksctl create cluster -f <clusterfile_name>```
 
+## This will launch your EKS cluster. After launching this we have to configure the kubectl.
+
 ```aws eks update-kubeconfig --name <cluster_name>```
+
+## So first create storage in EFS.
+
+![m](create_filesystem.png)
+
+## Now we have to put the EFS dns name and file system id that we have created into the efs-provisioner file.
+
+## we have created this file so that kubectl can access the EFS that is running on cloud
 
 ```
 kind: Deployment
@@ -80,7 +95,11 @@ spec:
             server: xxxxxxxxyyyyyyy.amazonaws.com
             path: /
 ```
+## Create this file 
+
 ```kubectl create -f file.yml```
+
+## For this it require some power that is know as role.
 
 ```
 apiVersion: rbac.authorization.k8s.io/v1beta1
@@ -96,7 +115,21 @@ roleRef:
   name: cluster-admin
   apiGroup: rbac.authorization.k8s.io
 ```
+## Create this file 
+
 ```kubectl create -f file.yml```
+
+## Now we have to install one utility “amazon-efs-utils” in all the worker nodes/instances. Because prometheus pod and grafana pod that will run over these nodes demand for EFS storage and It will work only when this utility will be avalilable in the nodes. we don’t know on which instance pod gonna launch so better to install utility in all instances.
+
+```
+ssh -i <key> -l <user> <public_ip> 
+```
+## Installing amazon-efs-utils 
+
+```sudo yum install amazon-efs-utils -y
+```
+
+## This file “storage.yaml file” that will create one seprate SC ,PVC
 
 ```
 kind: StorageClass
@@ -131,7 +164,11 @@ spec:
     requests:
       storage: 1Gi
 ```
+## Create this file 
+
 ```kubectl create -f file.yml```
+
+## Creating one deployment for Prometheus and also creating service type-LoadBalancer.
 
 ```
 apiVersion: v1
@@ -181,7 +218,7 @@ spec:
             claimName: efs-prometheus
 ```
 ```kubectl create -f file.yml```
-
+## Creating one deployment for Grafana and also creating service type-LoadBalancer.
 ```
 apiVersion: v1
 kind: Service
