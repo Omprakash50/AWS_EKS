@@ -12,13 +12,16 @@ we can connect to AWS via 3 ways
 - CLI
 - API (Terraform)
 
-### webui
+### CLI
 
 For this first we require aws configure to login to the aws cloud and then we need eksctl command which is like a client command only build for EKS Service.
+This will login to the aws in mumbai data center
 
+![m](cli_config.png)
 
-
-
+```
+hh
+```
 
 
 ![m](prometheus_start.png)
