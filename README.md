@@ -19,8 +19,30 @@ This will login to the aws in mumbai data center
 
 ![m](cli_config.png)
 
+```
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: sddcluster
+  region: ap-south-1
+
+nodeGroups:
+  - name: ng1
+    instanceType: t2.micro
+    desiredCapacity: 2
+    ssh:
+      publicKeyName: Omos
+  - name: ng2
+    instanceType: t3.small
+    desiredCapacity: 1
+    ssh:
+      publicKeyName: Omos 
+```
 
 ```eksctl create cluster -f <clusterfile_name>```
+
+```aws eks update-kubeconfig --name <cluster_name>```
 
 ```
 kind: Deployment
@@ -58,7 +80,7 @@ spec:
             server: xxxxxxxxyyyyyyy.amazonaws.com
             path: /
 ```
-
+```kubectl create -f file.yml```
 
 ```
 apiVersion: rbac.authorization.k8s.io/v1beta1
@@ -74,7 +96,7 @@ roleRef:
   name: cluster-admin
   apiGroup: rbac.authorization.k8s.io
 ```
-
+```kubectl create -f file.yml```
 
 ```
 kind: StorageClass
@@ -109,6 +131,7 @@ spec:
     requests:
       storage: 1Gi
 ```
+```kubectl create -f file.yml```
 
 ```
 apiVersion: v1
@@ -157,6 +180,7 @@ spec:
           persistentVolumeClaim:
             claimName: efs-prometheus
 ```
+```kubectl create -f file.yml```
 
 ```
 apiVersion: v1
@@ -207,8 +231,9 @@ spec:
         persistentVolumeClaim:
           claimName: efs-grafana
 ```
+```kubectl create -f file.yml```
 
-
+```eksctl delete cluster sddcluster```
 
 ![m](prometheus_start.png)
 
