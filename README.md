@@ -12,7 +12,10 @@ we can connect to AWS via 3 ways
 - CLI
 - API (Terraform)
 
-### CLI
+## CLI
+
+## Settings required before connecting to EKS through CLI. Create one IAM user in as account with power “Admin “access.
+
 
 For this first we require aws configure to login to the aws cloud and then we need eksctl command which is like a client command only build for EKS Service.
 This will login to the aws in mumbai data center
@@ -218,7 +221,7 @@ spec:
           persistentVolumeClaim:
             claimName: efs-prometheus
 ```
-# To create this
+## To create this
 
 ```kubectl create -f file.yml```
 
@@ -273,7 +276,7 @@ spec:
         persistentVolumeClaim:
           claimName: efs-grafana
 ```
-# To create this
+## To create this
 
 ```kubectl create -f file.yml```
 
@@ -283,16 +286,36 @@ spec:
 
 ## Method 2
 
+## Helm is a Kubernetes-based package installer. It manages Kubernetes “charts”, which are “preconfigured packages of Kubernetes resources.” Helm enables you to easily install packages, make revisions, and even roll back complex changes.
+
+## For setting up the HELM we have to run following commands-
+
+## helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+
+
+## helm repo list
+## helm repo update
+
+## helm install stable/prometheus
+
 ![m](prometheus_start.png)
 
+## to expose promethesu
 ___
 ![m](pro_start.png)
 
+## promethesu web UI
 ___
 ![m](prometheus.png)
 
+## helm install stable/grafana
 ___
 ![m](grafana_start.png)
 
+## grafana web UI
 ___
 ![m](grafana.png)
+
+
+
+## Thank you to read same will be uploaded on Linkedin soon
