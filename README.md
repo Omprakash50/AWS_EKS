@@ -155,6 +155,58 @@ spec:
             claimName: efs-prometheus
 ```
 
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  labels:
+    app: grafana
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: grafana
+    tier: frontend
+  type: LoadBalancer
+---
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: grafana
+  labels:
+    app: grafana
+    tier: frontend
+spec:
+  selector:
+    matchLabels:
+      app: grafana
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: grafana
+        tier: frontend
+    spec:
+      containers:
+      - image: grafana/grafana:latest
+        name: grafana
+        ports:
+        - containerPort: 80
+          name: grafana
+        volumeMounts:
+        - name: all-info
+          mountPath: /var/lib/grafana
+      volumes:
+      - name: all-info
+        persistentVolumeClaim:
+          claimName: efs-grafana
+```
+
+
+
 ![m](prometheus_start.png)
 
 ___
