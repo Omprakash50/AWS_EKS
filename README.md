@@ -17,8 +17,9 @@ we can connect to AWS via 3 ways
 For this first we require aws configure to login to the aws cloud and then we need eksctl command which is like a client command only build for EKS Service.
 This will login to the aws in mumbai data center
 
-
 ![m](cli_config.png)
+
+## Method 1
 
 ## This is the YAML code to create eks cluster.
 
@@ -217,8 +218,12 @@ spec:
           persistentVolumeClaim:
             claimName: efs-prometheus
 ```
+# To create this
+
 ```kubectl create -f file.yml```
+
 ## Creating one deployment for Grafana and also creating service type-LoadBalancer.
+
 ```
 apiVersion: v1
 kind: Service
@@ -268,9 +273,15 @@ spec:
         persistentVolumeClaim:
           claimName: efs-grafana
 ```
+# To create this
+
 ```kubectl create -f file.yml```
 
+## To delete the complete cluster
+
 ```eksctl delete cluster sddcluster```
+
+## Method 2
 
 ![m](prometheus_start.png)
 
