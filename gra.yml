@@ -6,25 +6,11 @@ metadata:
     app: grafana
 spec:
   ports:
-    - port: 3000
-      nodePort: 30001
+    - port: 80
   selector:
     app: grafana
     tier: frontend
-  type: NodePort
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: grafana-storage
-  labels:
-    app: grafana
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 20Gi
+  type: LoadBalancer
 ---
 apiVersion: apps/v1 
 kind: Deployment
@@ -50,7 +36,7 @@ spec:
       - image: grafana/grafana:latest
         name: grafana
         ports:
-        - containerPort: 3000
+        - containerPort: 80
           name: grafana
         volumeMounts:
         - name: all-info
@@ -58,4 +44,4 @@ spec:
       volumes:
       - name: all-info
         persistentVolumeClaim:
-          claimName: grafana-storage
+          claimName: efs-grafana
