@@ -19,6 +19,9 @@ This will login to the aws in mumbai data center
 
 ![m](cli_config.png)
 
+
+```eksctl create cluster -f <clusterfile_name>```
+
 ```
 kind: Deployment
 apiVersion: apps/v1
